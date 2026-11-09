@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Lazarai builds privacy tools that make your data invisible to AI crawlers. Join the GHOSTWALL_x waitlist.">
+<link rel="canonical" href="https://lazarai.io/">
+<meta property="og:site_name" content="Lazarai">
+<meta property="og:title" content="Lazarai">
+<meta property="og:description" content="Privacy tools that make your data invisible to AI crawlers. Home of GHOSTWALL_x.">
+<meta property="og:url" content="https://lazarai.io/">
+<meta property="og:type" content="website">
+<title>Lazarai</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"%3E%3Crect width="200" height="200" rx="44" fill="#0A1A2F"/%3E%3C%21-- cross, squared off to match --%3E%3Cpath d="M42 14v176" stroke="#5A9BFF" stroke-width="11"/%3E%3Cpath d="M14 60h56" stroke="#5A9BFF" stroke-width="11"/%3E%3Ccircle cx="42" cy="60" r="13" fill="#0A1A2F" stroke="#EAF2FD" stroke-width="6"/%3E%3C%21-- Doberman head, faceted --%3E%3Cpolygon fill="#EAF2FD" points="74,190 80,130 94,98 96,92 98,22 120,80 132,82 142,93 180,103 187,110 185,119 176,123 166,131 138,135 124,147 122,190"/%3E%3C%21-- facets for depth --%3E%3Cpolygon fill="#C9DAF0" points="94,98 120,80 132,82 142,93 138,135 124,147 110,112"/%3E%3Cpolygon fill="#DCE8F7" points="142,93 180,103 176,123 138,135"/%3E%3Cpolygon fill="#DCE8F7" points="80,130 94,98 110,112 124,147 122,190 74,190"/%3E%3C%21-- rust points, in blue --%3E%3Cpolygon fill="#1F6FEB" points="124,88 134,85 131,92"/%3E%3Cpolygon fill="#1F6FEB" points="148,121 177,122 166,131 142,133"/%3E%3Cpolygon fill="#1F6FEB" points="122,160 123,149 138,136"/%3E%3C%21-- nose --%3E%3Cpolygon fill="#EAF2FD" points="180,103 187,110 185,119 179,117"/%3E%3C%21-- eye --%3E%3Cpolygon fill="#0A1A2F" points="131,98 138,94 146,98 138,101"/%3E%3C%21-- inner ear --%3E%3Cpolygon fill="#0A1A2F" opacity=".85" points="101,40 113,77 103,84"/%3E%3C/svg%3E">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600&family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one long scroll story on white. Hero → pinned definition (words light up as you scroll) → stacked sticky cards for GHOSTWALL_x → live block log → waitlist. Matrix rain lives on a fixed canvas behind everything. */
+:root{
+  --paper:#FAFCFF;
+  --ink:#0A1A2F;
+  --ink-soft:#4A5B73;
+  --blue:#1F6FEB;
+  --blue-deep:#0F4DB8;
+  --ice:#E6F0FC;
+  --line:#D5E2F3;
+  --rain:31,111,235;
+  --f-display:"Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --f-body:"Manrope", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{background:var(--paper)}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;overflow-x:hidden}
+#rain{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.veil{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(120% 80% at 50% 30%, rgba(250,252,255,.55) 0%, rgba(250,252,255,.88) 60%, var(--paper) 100%)}
+main,header,footer{position:relative;z-index:1}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+a{color:var(--blue-deep)}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:4px}
+
+/* progress */
+.progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:20;background:transparent;margin-top:env(safe-area-inset-top,0px)}
+.progress i{display:block;height:100%;width:100%;background:var(--blue);transform-origin:0 50%;transform:scaleX(0)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+
+/* nav */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:15;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);background:rgba(250,252,255,.72);border-bottom:1px solid transparent;transition:border-color .3s}
+header.scrolled{border-bottom-color:var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:16px}
+.mark{font-family:var(--f-mono);font-weight:600;letter-spacing:.32em;font-size:13px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px}
+.mark svg{width:30px;height:30px;flex:none}
+.nav ul{display:flex;gap:24px;list-style:none;margin:0;padding:0;font-size:14px;font-weight:500}
+.nav ul a{color:var(--ink-soft);text-decoration:none}
+.nav ul a:hover{color:var(--blue)}
+.nav .cta{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;color:var(--paper);background:var(--ink);padding:9px 14px;border-radius:999px;text-decoration:none;white-space:nowrap}
+@media (max-width:640px){.nav ul{display:none}}
+
+/* hero */
+.hero{padding-block:clamp(72px,14vh,150px) clamp(56px,10vh,110px)}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 4px rgba(31,111,235,.15);animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 9px rgba(31,111,235,0)}}
+h1{font-family:var(--f-display);font-weight:400;font-size:clamp(48px,9.2vw,124px);line-height:.95;letter-spacing:-.02em;margin:28px 0 0;text-wrap:balance;max-width:14ch}
+h1 em{color:var(--blue);font-style:italic}
+.line{display:block;overflow:hidden;padding-bottom:.06em}
+.line>span{display:inline-block;animation:rise 1.1s cubic-bezier(.2,.8,.2,1) both}
+.line:nth-child(2)>span{animation-delay:.12s}
+@keyframes rise{from{transform:translateY(35%);opacity:.35;filter:blur(6px)}to{transform:none;opacity:1;filter:none}}
+.hero p.lede{max-width:52ch;font-size:clamp(17px,1.6vw,20px);color:var(--ink-soft);margin:32px 0 0}
+.pron{margin-top:48px;display:flex;flex-wrap:wrap;gap:12px 28px;font-family:var(--f-mono);font-size:13px;color:var(--ink-soft)}
+.pron b{color:var(--ink);font-weight:600}
+.scrollcue{margin-top:64px;font-family:var(--f-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);display:flex;align-items:center;gap:12px}
+.scrollcue span{width:1px;height:40px;background:linear-gradient(var(--blue),transparent);animation:drip 2s ease-in-out infinite;transform-origin:top}
+@keyframes drip{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+
+/* pinned definition */
+.define{height:260vh;position:relative}
+.define .sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center}
+.define .card{width:100%}
+.dict{font-family:var(--f-mono);font-size:13px;color:var(--ink-soft);display:flex;flex-wrap:wrap;gap:8px 20px;margin-bottom:28px}
+.dict b{font-family:var(--f-display);font-weight:400;font-size:clamp(34px,4.4vw,56px);color:var(--ink);letter-spacing:-.01em;line-height:1}
+.dict i{font-style:italic}
+.reveal{font-family:var(--f-display);font-size:clamp(30px,4.6vw,64px);line-height:1.12;letter-spacing:-.01em;max-width:20ch;margin:0;text-wrap:balance}
+.reveal .w{opacity:var(--o,1);transition:opacity .15s linear,color .3s}
+.reveal .w.hot{color:var(--blue)}
+
+/* product */
+.section-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px;align-items:end;padding-block:96px 48px}
+.section-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(40px,6vw,80px);line-height:1;margin:16px 0 0;letter-spacing:-.02em}
+.section-head h2 em{color:var(--blue)}
+.section-head p{color:var(--ink-soft);max-width:44ch;margin:0}
+@media (max-width:760px){.section-head{grid-template-columns:minmax(0,1fr)}}
+.stack{display:grid;gap:0;padding-bottom:12vh}
+.layer{position:sticky;top:calc(96px + var(--i) * 22px);background:#fff;border:1px solid var(--line);border-radius:22px;padding:clamp(24px,4vw,48px);min-height:min(62vh,520px);display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:center;box-shadow:0 30px 60px -40px rgba(15,77,184,.35);transform-origin:50% 0;margin-bottom:12vh;will-change:transform}
+.layer:last-child{margin-bottom:0}
+.step{font-family:var(--f-mono);font-size:12px;letter-spacing:.16em;color:var(--blue);text-transform:uppercase}
+.layer h3{font-family:var(--f-display);font-weight:400;font-size:clamp(32px,4vw,52px);line-height:1.02;margin:14px 0 16px;letter-spacing:-.01em}
+.layer p{color:var(--ink-soft);margin:0;max-width:42ch}
+.term{background:var(--ink);color:#CFE0F7;border-radius:14px;padding:18px;font-family:var(--f-mono);font-size:12.5px;line-height:1.75;min-width:0;overflow:hidden}
+.term .dots{display:flex;gap:6px;margin-bottom:12px}
+.term .dots i{width:9px;height:9px;border-radius:50%;background:#2A3D58}
+.term .k{color:#6FA8FF}
+.term .ok{color:#7FE3C4}
+.term .no{color:#FF8A8A}
+.term .dim{color:#6B7F9C}
+.term pre{margin:0;white-space:pre-wrap;word-break:break-word;font:inherit}
+@media (max-width:760px){.layer{grid-template-columns:minmax(0,1fr);min-height:auto;top:calc(84px + var(--i) * 14px)}}
+
+/* marquee */
+.ticker{border-block:1px solid var(--line);background:rgba(230,240,252,.65);overflow:hidden;padding-block:18px;margin-top:40px}
+.ticker .row{display:flex;gap:48px;white-space:nowrap;width:max-content;font-family:var(--f-mono);font-size:14px;color:var(--ink-soft);will-change:transform}
+.ticker .row span::before{content:"⊘ ";color:var(--blue)}
+
+/* story */
+.story{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(32px,6vw,96px);padding-block:120px}
+.story h2{font-family:var(--f-display);font-weight:400;font-size:clamp(38px,5vw,68px);line-height:1.02;margin:16px 0 0;letter-spacing:-.02em;text-wrap:balance}
+.story h2 em{color:var(--blue)}
+.story .body{display:grid;gap:20px;color:var(--ink-soft);font-size:17px;max-width:56ch;align-content:start}
+.story .body p{margin:0}
+.story .body strong{color:var(--ink);font-weight:600}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:12px;padding-top:24px;border-top:1px solid var(--line)}
+.facts div{font-family:var(--f-mono);font-size:12px;color:var(--ink-soft)}
+.facts b{display:block;font-family:var(--f-body);font-size:15px;color:var(--ink);font-weight:600;margin-bottom:4px}
+@media (max-width:760px){.story{grid-template-columns:minmax(0,1fr)}.facts{grid-template-columns:minmax(0,1fr)}}
+
+.rv{transition:transform .9s cubic-bezier(.2,.8,.2,1),opacity .9s,filter .9s}
+.js .rv:not(.in){transform:translateY(28px);opacity:.4;filter:blur(3px)}
+
+/* waitlist */
+.join{padding-block:40px 120px}
+.join .panel{background:var(--ink);color:#EAF2FD;border-radius:28px;padding:clamp(32px,6vw,72px);display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:40px;align-items:end;position:relative;overflow:hidden}
+.join .panel::after{content:"";position:absolute;inset:auto -10% -60% 40%;height:120%;background:radial-gradient(closest-side,rgba(31,111,235,.55),transparent);pointer-events:none}
+.join h2{font-family:var(--f-display);font-weight:400;font-size:clamp(40px,6vw,76px);line-height:1;margin:0;letter-spacing:-.02em}
+.join h2 em{color:#7DB2FF}
+.join p{color:#A9BCD6;margin:18px 0 0;max-width:44ch}
+form{position:relative;z-index:1;display:grid;gap:12px}
+label{font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#A9BCD6}
+.field{display:flex;gap:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:6px}
+.field input{flex:1;min-width:0;background:transparent;border:0;color:#fff;font:inherit;font-size:16px;padding:10px 14px;outline:none}
+.field input::placeholder{color:#6B7F9C}
+.field button{border:0;border-radius:999px;background:var(--blue);color:#fff;font-family:var(--f-mono);font-size:13px;letter-spacing:.06em;padding:0 20px;cursor:pointer;white-space:nowrap}
+.field button:hover{background:#3B82F6}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.field button:disabled{opacity:.6;cursor:wait}
+.msg{font-size:14px;color:#7FE3C4;min-height:1.4em;margin:0}
+.msg.err{color:#FF9B9B}
+@media (max-width:760px){.join .panel{grid-template-columns:minmax(0,1fr)}}
+
+/* closing cross */
+.sigil{display:grid;justify-items:center;gap:20px;padding-block:24px 96px;perspective:900px}
+.sigil .spin{width:clamp(120px,22vw,180px);aspect-ratio:1/1.35;max-width:100%;position:relative;transform-style:preserve-3d;animation:turn 9s linear infinite}
+.sigil .spin svg{position:absolute;inset:0;width:100%;height:100%;backface-visibility:visible}
+.sigil .spin svg+svg{transform:translateZ(-6px);opacity:.35}
+.sigil .halo{position:absolute;inset:-30%;border-radius:50%;background:radial-gradient(closest-side,rgba(31,111,235,.18),transparent 70%);transform:translateZ(-20px);animation:breathe 4.5s ease-in-out infinite}
+@keyframes turn{to{transform:rotateY(360deg)}}
+@keyframes breathe{50%{opacity:.45;transform:translateZ(-20px) scale(1.12)}}
+.sigil p{margin:0;font-family:var(--f-mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft);text-align:center}
+@media (prefers-reduced-motion:reduce){.sigil .spin,.sigil .halo{animation:none}}
+
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;padding-block:32px 48px;border-top:1px solid var(--line);font-family:var(--f-mono);font-size:12px;color:var(--ink-soft)}
+
+@media (prefers-reduced-motion:reduce){
+  .line>span,.eyebrow::before,.scrollcue span{animation:none}
+  .rv,.js .rv:not(.in){transform:none;opacity:1;filter:none;transition:none}
+}
+</style>
+
+</head>
+<body style="margin:0">
+<canvas id="rain" aria-hidden="true"></canvas>
+<div class="veil" aria-hidden="true"></div>
+<div class="progress" aria-hidden="true"><i id="bar"></i></div>
+
+<header id="top">
+  <div class="wrap nav">
+    <a class="mark" href="#hero" aria-label="Lazarai home">
+      <svg viewBox="0 0 200 200" aria-hidden="true"><path d="M42 14v176" stroke="#1F6FEB" stroke-width="11"/><path d="M14 60h56" stroke="#1F6FEB" stroke-width="11"/><circle cx="42" cy="60" r="13" fill="#FAFCFF" stroke="#0A1A2F" stroke-width="6"/><polygon fill="#0A1A2F" points="74,190 80,130 94,98 96,92 98,22 120,80 132,82 142,93 180,103 187,110 185,119 176,123 166,131 138,135 124,147 122,190"/><polygon fill="#1C3150" points="94,98 120,80 132,82 142,93 138,135 124,147 110,112"/><polygon fill="#13243D" points="142,93 180,103 176,123 138,135"/><polygon fill="#13243D" points="80,130 94,98 110,112 124,147 122,190 74,190"/><polygon fill="#5A9BFF" points="124,88 134,85 131,92"/><polygon fill="#5A9BFF" points="148,121 177,122 166,131 142,133"/><polygon fill="#5A9BFF" points="122,160 123,149 138,136"/><polygon fill="#0A1A2F" points="180,103 187,110 185,119 179,117"/><polygon fill="#FAFCFF" points="131,98 138,94 146,98 138,101"/><polygon fill="#FAFCFF" opacity=".85" points="101,40 113,77 103,84"/></svg>
+      LAZARAI
+    </a>
+    <ul>
+      <li><a href="#define">The name</a></li>
+      <li><a href="#ghostwall">GHOSTWALL_x</a></li>
+      <li><a href="#story">Why</a></li>
+    </ul>
+    <a class="cta" href="#join">Join waitlist</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="hero">
+    <div class="wrap">
+      <div class="eyebrow">Privacy software · In active development</div>
+      <h1><span class="line"><span>What they can't see,</span></span><span class="line"><span>they can't <em>take.</em></span></span></h1>
+      <p class="lede">Lazarai builds tools that make your data invisible to AI crawlers. Our first product, GHOSTWALL_x, stops scrapers at the network layer, before a single page leaves your server.</p>
+      <div class="pron"><span><b>la·za·rai</b></span><span>/ˈla-zə-ˌrī/</span><span>“laza-rye”</span></div>
+      <div class="scrollcue"><span></span>Scroll</div>
+    </div>
+  </section>
+
+  <section class="define" id="define">
+    <div class="sticky">
+      <div class="wrap card">
+        <div class="dict"><b>Laz·a·rai</b><span>/ˈla-zə-ˌrī/</span><i>noun</i></div>
+        <p class="reveal" id="reveal">From Lazarus, the one called back from the dark. Software that brings your data back under your control, and keeps it there.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="ghostwall">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Product 01</div>
+          <h2>GHOSTWALL<em>_x</em></h2>
+        </div>
+        <p class="rv">A privacy firewall built in Rust, Tauri and Svelte. It recognizes AI crawlers by how they identify and behave, then drops them before they reach your content. Your human visitors never notice it's there.</p>
+      </div>
+
+      <div class="stack" id="stack">
+        <article class="layer" style="--i:0">
+          <div>
+            <div class="step">Step 1 of 3 · Detect</div>
+            <h3>Know every bot at the door.</h3>
+            <p>GHOSTWALL_x matches incoming requests against known AI crawler signatures: user agents, network origins and request patterns that scrapers can't easily fake.</p>
+          </div>
+          <div class="term"><div class="dots"><i></i><i></i><i></i></div><pre><span class="dim">$</span> ghostwall inspect --live
+<span class="k">GET</span> /blog/post-14   <span class="dim">UA</span> GPTBot/1.2
+  <span class="dim">→ match</span> ai-crawler · openai
+<span class="k">GET</span> /about          <span class="dim">UA</span> Mozilla/5.0 (Mac)
+  <span class="dim">→ match</span> human · allow</pre></div>
+        </article>
+
+        <article class="layer" style="--i:1">
+          <div>
+            <div class="step">Step 2 of 3 · Block</div>
+            <h3>Stop it at the network layer.</h3>
+            <p>Most bot blocking happens after your server has already done the work. GHOSTWALL_x drops the connection first, so no page is rendered and nothing is handed over.</p>
+          </div>
+          <div class="term"><div class="dots"><i></i><i></i><i></i></div><pre><span class="no">DROP</span> CCBot          <span class="dim">tcp/443  0 bytes sent</span>
+<span class="no">DROP</span> Bytespider     <span class="dim">tcp/443  0 bytes sent</span>
+<span class="no">DROP</span> PerplexityBot  <span class="dim">tcp/443  0 bytes sent</span>
+<span class="ok">PASS</span> Safari/17.4     <span class="dim">tcp/443  served</span></pre></div>
+        </article>
+
+        <article class="layer" style="--i:2">
+          <div>
+            <div class="step">Step 3 of 3 · Vanish</div>
+            <h3>Stay off the training set.</h3>
+            <p>Rules update as new crawlers appear. You see every blocked request in one place, and your work stays yours instead of quietly becoming someone else's model.</p>
+          </div>
+          <div class="term"><div class="dots"><i></i><i></i><i></i></div><pre><span class="dim">ghostwall status</span>
+rules        <span class="ok">up to date</span>
+blocked 24h  <span class="k" id="count">1,284</span>
+leaked       <span class="ok">0</span>
+mode         <span class="k">invisible</span></pre></div>
+        </article>
+      </div>
+    </div>
+
+    <div class="ticker" aria-label="Examples of AI crawlers GHOSTWALL_x can block">
+      <div class="row" id="ticker"></div>
+    </div>
+  </section>
+
+  <section id="story">
+    <div class="wrap story">
+      <div>
+        <div class="eyebrow">Why Lazarai</div>
+        <h2 class="rv">Your work should <em>outlive</em> the scrapers.</h2>
+      </div>
+      <div class="body rv">
+        <p>AI companies trained on the open web without asking. Writers, artists and small businesses found their work inside products they never agreed to feed.</p>
+        <p><strong>Lazarai exists to give that control back.</strong> GHOSTWALL_x is the first tool. More are coming, all built on one rule: what's yours stays yours.</p>
+        <div class="facts">
+          <div><b>Syracuse, NY</b>Headquarters</div>
+          <div><b>Rust · Tauri · Svelte</b>Built with</div>
+          <div><b>2026</b>Founded</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="join" id="join">
+    <div class="wrap">
+      <div class="panel">
+        <div>
+          <h2>Go <em>invisible</em> first.</h2>
+          <p>Join the waitlist for early access to GHOSTWALL_x and pre-sale pricing.</p>
+        </div>
+        <form id="wl" novalidate>
+          <label for="email">Email address</label>
+          <div class="field">
+            <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+            <button type="submit">Notify me</button>
+          </div>
+          <div class="hp" aria-hidden="true"><label for="company">Company</label><input id="company" name="company" type="text" tabindex="-1" autocomplete="off"></div>
+          <p class="msg" id="msg" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="sigil" aria-label="Lazarai mark">
+    <div class="spin">
+      <div class="halo" aria-hidden="true"></div>
+      <svg viewBox="0 0 100 135" fill="none" aria-hidden="true"><path d="M50 6v123M18 44h64" stroke="#0F4DB8" stroke-width="6" stroke-linecap="round"/></svg>
+      <svg viewBox="0 0 100 135" fill="none" aria-hidden="true"><path d="M50 6v123M18 44h64" stroke="#1F6FEB" stroke-width="8" stroke-linecap="round"/><circle cx="50" cy="44" r="15" stroke="#0A1A2F" stroke-width="4" fill="#FAFCFF"/></svg>
+    </div>
+    <p>Called back · Lazarai</p>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Lazarai · lazarai.io</span>
+    <a href="https://github.com/Cloudyheadco" target="_blank" rel="noopener">github.com/Cloudyheadco</a>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- matrix rain ---------- */
+  const cv = document.getElementById('rain'), cx = cv.getContext('2d');
+  const glyphs = 'ラザロアイウエオカキクケコサシスセソ0123456789ABCDEF<>/{}#$'.split('');
+  let W, H, cols, drops, fs, velocity = 0;
+  function size(){
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    W = innerWidth; H = innerHeight;
+    cv.width = W * dpr; cv.height = H * dpr; cx.setTransform(dpr,0,0,dpr,0,0);
+    fs = W < 600 ? 13 : 15;
+    cols = Math.ceil(W / fs);
+    drops = Array.from({length: cols}, () => Math.random() * -H / fs);
+    cx.fillStyle = '#FAFCFF'; cx.fillRect(0,0,W,H);
+  }
+  let lastStep = 0;
+  function frame(t){
+    if (!reduce){ requestAnimationFrame(frame); if (t - lastStep < 70) return; lastStep = t; }
+    cx.fillStyle = 'rgba(250,252,255,0.14)';
+    cx.fillRect(0,0,W,H);
+    cx.font = fs + 'px "JetBrains Mono", monospace';
+    const speed = 0.5 + Math.min(Math.abs(velocity) * 0.01, 0.6);
+    for (let i = 0; i < cols; i++){
+      if (i % 2) continue;
+      const y = drops[i] * fs;
+      const ch = glyphs[(Math.random() * glyphs.length) | 0];
+      cx.fillStyle = 'rgba(31,111,235,0.55)';
+      cx.fillText(ch, i * fs, y);
+      if (y > H && Math.random() > 0.985) drops[i] = Math.random() * -30;
+      drops[i] += speed * (0.6 + (i % 5) * 0.1);
+    }
+    velocity *= 0.92;
+  }
+  size(); addEventListener('resize', size);
+  if (reduce){ for (let k = 0; k < 80; k++) frame(0); } else requestAnimationFrame(frame);
+
+  /* ---------- definition words ---------- */
+  const rv = document.getElementById('reveal');
+  const hotWords = ['Lazarus,','back','control,'];
+  rv.innerHTML = rv.textContent.trim().split(/\s+/).map(w =>
+    '<span class="w' + (hotWords.includes(w) ? ' hot-candidate' : '') + '">' + w + '</span>').join(' ');
+  const words = [...rv.querySelectorAll('.w')];
+  const defineSec = document.getElementById('define');
+
+  /* ---------- stacked cards ---------- */
+  const layers = [...document.querySelectorAll('.layer')];
+
+  /* ---------- ticker ---------- */
+  const bots = ['GPTBot','ClaudeBot','CCBot','Bytespider','PerplexityBot','Google-Extended','Amazonbot','Applebot-Extended','meta-externalagent','Diffbot','ImagesiftBot','Omgilibot'];
+  const tk = document.getElementById('ticker');
+  tk.innerHTML = bots.concat(bots).map(b => '<span>' + b + '</span>').join('');
+  let tx = 0;
+
+  /* ---------- reveals ---------- */
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.15});
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+  const bar = document.getElementById('bar'), header = document.getElementById('top');
+  let lastY = scrollY;
+
+  function update(y){
+    const max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = 'scaleX(' + (max > 0 ? y / max : 0) + ')';
+    header.classList.toggle('scrolled', y > 8);
+
+    // definition: words light up across the pinned scroll
+    const r = defineSec.getBoundingClientRect();
+    const p = Math.min(Math.max(-r.top / (r.height - innerHeight), 0), 1);
+    const lit = p * (words.length + 2);
+    words.forEach((w, i) => {
+      const o = Math.min(Math.max(lit - i, 0), 1);
+      w.style.setProperty('--o', (0.22 + o * 0.78).toFixed(3));
+      if (w.classList.contains('hot-candidate')) w.classList.toggle('hot', o > 0.9);
+    });
+
+    // cards: earlier cards shrink as later ones slide over them
+    layers.forEach((l, i) => {
+      const next = layers[i + 1];
+      if (!next) return;
+      const nr = next.getBoundingClientRect(), lr = l.getBoundingClientRect();
+      const cover = Math.min(Math.max((lr.bottom - nr.top) / lr.height, 0), 1);
+      l.style.transform = 'scale(' + (1 - cover * 0.06).toFixed(4) + ')';
+      l.style.filter = 'brightness(' + (1 - cover * 0.08).toFixed(3) + ')';
+    });
+
+    velocity += (y - lastY); lastY = y;
+  }
+
+  function tick(){
+    tx -= 0.5 + Math.min(Math.abs(velocity) * 0.05, 6);
+    const half = tk.scrollWidth / 2;
+    if (-tx > half) tx += half;
+    tk.style.transform = 'translateX(' + tx + 'px)';
+    if (!reduce) requestAnimationFrame(tick);
+  }
+  if (!reduce) requestAnimationFrame(tick);
+
+  // blocked counter
+  const count = document.getElementById('count'); let n = 1284;
+  if (!reduce) setInterval(() => { n += 1 + (Math.random() * 3 | 0); count.textContent = n.toLocaleString(); }, 1400);
+
+  /* ---------- smooth scroll ---------- */
+  let lenis = null;
+  if (!reduce && window.Lenis){
+    lenis = new Lenis({ lerp: 0.085, smoothWheel: true, wheelMultiplier: 0.95 });
+    lenis.on('scroll', e => update(e.scroll));
+    const raf = t => { lenis.raf(t); requestAnimationFrame(raf); };
+    requestAnimationFrame(raf);
+  } else {
+    addEventListener('scroll', () => update(scrollY), {passive:true});
+  }
+  document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (!t) return; e.preventDefault();
+    lenis ? lenis.scrollTo(t, {offset:-64, duration:1.4}) : t.scrollIntoView({behavior: reduce ? 'auto' : 'smooth'});
+  }));
+  update(scrollY);
+
+  /* ---------- waitlist ---------- */
+  const form = document.getElementById('wl'), email = document.getElementById('email'), msg = document.getElementById('msg');
+  const btn = form.querySelector('button');
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const value = email.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)){
+      msg.className = 'msg err'; msg.textContent = 'Enter a full email address, like you@example.com.'; return;
+    }
+    btn.disabled = true; btn.textContent = 'Joining…'; msg.className = 'msg'; msg.textContent = '';
+    try {
+      const res = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ email: value, company: document.getElementById('company').value })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok){
+        msg.textContent = data.already ? "You're already on the list. We'll be in touch." : "You're on the list. We'll email you when GHOSTWALL_x opens.";
+        form.reset();
+      } else {
+        msg.className = 'msg err';
+        msg.textContent = data.error || 'Something went wrong on our end. Try again in a minute.';
+      }
+    } catch (err) {
+      msg.className = 'msg err';
+      msg.textContent = 'Signups only work on the live site. This preview can\'t reach the server.';
+    } finally {
+      btn.disabled = false; btn.textContent = 'Notify me';
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

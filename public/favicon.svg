@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" rx="44" fill="#0A1A2F"/>
+  <!-- cross, squared off to match -->
+  <path d="M42 14v176" stroke="#5A9BFF" stroke-width="11"/>
+  <path d="M14 60h56" stroke="#5A9BFF" stroke-width="11"/>
+  <circle cx="42" cy="60" r="13" fill="#0A1A2F" stroke="#EAF2FD" stroke-width="6"/>
+  <!-- Doberman head, faceted -->
+  <polygon fill="#EAF2FD" points="74,190 80,130 94,98 96,92 98,22 120,80 132,82 142,93 180,103 187,110 185,119 176,123 166,131 138,135 124,147 122,190"/>
+  <!-- facets for depth -->
+  <polygon fill="#C9DAF0" points="94,98 120,80 132,82 142,93 138,135 124,147 110,112"/>
+  <polygon fill="#DCE8F7" points="142,93 180,103 176,123 138,135"/>
+  <polygon fill="#DCE8F7" points="80,130 94,98 110,112 124,147 122,190 74,190"/>
+  <!-- rust points, in blue -->
+  <polygon fill="#1F6FEB" points="124,88 134,85 131,92"/>
+  <polygon fill="#1F6FEB" points="148,121 177,122 166,131 142,133"/>
+  <polygon fill="#1F6FEB" points="122,160 123,149 138,136"/>
+  <!-- nose -->
+  <polygon fill="#EAF2FD" points="180,103 187,110 185,119 179,117"/>
+  <!-- eye -->
+  <polygon fill="#0A1A2F" points="131,98 138,94 146,98 138,101"/>
+  <!-- inner ear -->
+  <polygon fill="#0A1A2F" opacity=".85" points="101,40 113,77 103,84"/>
+</svg>
