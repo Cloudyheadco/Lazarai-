@@ -460,7 +460,7 @@ mode         <span class="k">invisible</span></pre></div>
         body: JSON.stringify({ email: value, company: document.getElementById('company').value })
       });
       const data = await res.json().catch(() => ({}));
-      if (res.ok){
+      if (res.ok && data.ok){
         msg.textContent = data.already ? "You're already on the list. We'll be in touch." : "You're on the list. We'll email you when GHOSTWALL_x opens.";
         form.reset();
       } else {
